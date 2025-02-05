@@ -6,7 +6,6 @@
 type Matrix = number[][];
 
 export default function rotateMatrix(matrix: Matrix) {
-	console.log(matrix);
 	for (let i = 0; i < matrix.length; i++) {
 		for (let j = i + 1; j < matrix.length; j++) {
 			const v = matrix[i][j];
