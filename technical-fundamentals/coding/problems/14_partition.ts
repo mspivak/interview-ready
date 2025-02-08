@@ -28,6 +28,3 @@ export default function partition<T>(
 	const right = list.filter((v: T) => v >= x);
 	return left.concat(right).head;
 }
-
-const partitioned = partition({ value: 5, next: undefined }, 5);
-console.log(partitioned);
