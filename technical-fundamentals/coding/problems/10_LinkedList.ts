@@ -10,15 +10,30 @@ export type Node<T> = {
 export class LinkedList<T> {
 	head: Node<T> | undefined;
 	tail: Node<T> | undefined;
-
+	length: number;
 	constructor(head?: Node<T>) {
-		this.head = head;
+		this.length = 0;
+		this.head = undefined;
+		this.tail = undefined;
+
 		if (head) {
-			let p: Node<T> | undefined = head;
-			while (p?.next) {
-				p = p.next;
+			let pointer: Node<T> | undefined = head;
+			let newHead: Node<T> = { value: pointer.value };
+			this.head = newHead;
+			this.tail = newHead;
+			this.length = 1;
+
+			let previousNewNode = newHead;
+			pointer = pointer.next;
+
+			while (pointer) {
+				const newNode = { value: pointer.value };
+				previousNewNode.next = newNode;
+				previousNewNode = newNode;
+				this.length++;
+				pointer = pointer.next;
+				this.tail = newNode;
 			}
-			this.tail = p;
 		}
 	}
 
@@ -35,6 +50,7 @@ export class LinkedList<T> {
 
 		this.tail!.next = newTail;
 		this.tail = newTail;
+		this.length++;
 	}
 
 	filter(fn: Function) {
@@ -85,6 +101,18 @@ export class LinkedList<T> {
 			pointer = pointer.next;
 			i++;
 		}
+		this.length--;
+	}
+
+	count() {
+		let pointer: Node<T> | undefined = this.head;
+		let count = 0;
+		while (pointer) {
+			count++;
+			pointer = pointer.next;
+		}
+		this.length = count;
+		return count;
 	}
 
 	concat(another: LinkedList<T>) {
@@ -94,6 +122,21 @@ export class LinkedList<T> {
 		} else {
 			this.tail.next = another.head;
 		}
+		this.count();
+		return this;
+	}
+
+	reverse() {
+		let pointer: Node<T> | undefined = this.head;
+		let previous: Node<T> | undefined;
+		this.tail = this.head;
+		while (pointer) {
+			const next = pointer.next;
+			pointer.next = previous;
+			previous = pointer;
+			pointer = next;
+		}
+		this.head = previous;
 		return this;
 	}
 
@@ -109,6 +152,7 @@ export class LinkedList<T> {
 		}
 		output += "]";
 		console.log(output);
+		return this;
 	}
 
 	find(value: T): Node<T> | null {
