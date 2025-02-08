@@ -18,10 +18,28 @@
 import { LinkedList } from "./10_LinkedList";
 
 export type Node<T> = {
-  value: T;
-  next?: Node<T>;
+	value: T;
+	next?: Node<T>;
 };
 
 export default function detectLoop<T>(
-  head: Node<T> | undefined,
-): Node<T> | null {}
+	head: Node<T> | undefined
+): Node<T> | null {
+	let slow: Node<T> | undefined = head;
+	let fast: Node<T> | undefined = head;
+
+	while (slow && fast && fast.next) {
+		slow = slow.next;
+		fast = fast.next.next;
+		if (slow == fast) {
+			let pointer = head;
+			while (pointer !== slow) {
+				pointer = pointer?.next;
+				slow = slow?.next;
+			}
+			if (pointer === undefined) return null;
+			return pointer;
+		}
+	}
+	return null;
+}
