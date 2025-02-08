@@ -140,6 +140,19 @@ export class LinkedList<T> {
 		return this;
 	}
 
+	isEqualTo(list: LinkedList<T>): boolean {
+		let pointer1: Node<T> | undefined = this.head;
+		let pointer2: Node<T> | undefined = list.head;
+		while (pointer1 || pointer2) {
+			if (!pointer1 || !pointer2 || pointer1.value !== pointer2.value) {
+				return false;
+			}
+			pointer1 = pointer1?.next;
+			pointer2 = pointer2?.next;
+		}
+		return true;
+	}
+
 	print() {
 		let pointer: Node<T> | undefined = this.head;
 		let output = "[";

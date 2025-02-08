@@ -5,8 +5,12 @@
 import { LinkedList } from "./10_LinkedList";
 
 export type Node<T> = {
-  value: T;
-  next?: Node<T>;
+	value: T;
+	next?: Node<T>;
 };
 
-export default function isPalindrome<T>(head: Node<T> | undefined): boolean {}
+export default function isPalindrome<T>(head: Node<T> | undefined): boolean {
+	const list = new LinkedList(head);
+	const reversed = new LinkedList(head).reverse();
+	return list.isEqualTo(reversed);
+}
