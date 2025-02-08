@@ -13,11 +13,15 @@
 import { LinkedList } from "./10_LinkedList";
 
 export type Node<T> = {
-  value: T;
-  next?: Node<T>;
+	value: T;
+	next?: Node<T>;
 };
 
 export default function deleteMiddleNode<T>(
-  head: Node<T>,
-  position: number,
-): Node<T> | undefined {}
+	head: Node<T>,
+	position: number
+): Node<T> | undefined {
+	const list = new LinkedList(head);
+	if (position >= 1) list.remove(position);
+	return list.head;
+}
