@@ -13,39 +13,35 @@ export class LinkedList<T> {
 
 	constructor(head?: Node<T>) {
 		this.head = head;
-
-		let p: Node<T> | undefined = head;
-		while (p) {
-			p = p.next;
+		if (head) {
+			let p: Node<T> | undefined = head;
+			while (p?.next) {
+				p = p.next;
+			}
+			this.tail = p;
 		}
-		this.tail = p;
 	}
 
 	push(value: T) {
 		const newTail = {
 			next: undefined,
-			value: value,
+			value,
 		};
 		if (!this.head) {
 			this.head = newTail;
-		}
-		if (!this.tail) {
 			this.tail = newTail;
+			return;
 		}
-		const oldTail = this.tail;
+
+		this.tail!.next = newTail;
 		this.tail = newTail;
-		if (oldTail) {
-			oldTail.next = newTail;
-		}
 	}
 
 	filter(fn: Function) {
 		let pointer: Node<T> | undefined = this.head;
 		let filteredList = new LinkedList<T>();
 		while (pointer) {
-			if (fn(pointer.value)) {
-				filteredList.push(pointer.value);
-			}
+			if (fn(pointer.value)) filteredList.push(pointer.value);
 			pointer = pointer.next;
 		}
 		return filteredList;

@@ -15,11 +15,19 @@
 import { LinkedList } from "./10_LinkedList";
 
 export type Node<T> = {
-  value: T;
-  next?: Node<T>;
+	value: T;
+	next?: Node<T>;
 };
 
 export default function partition<T>(
-  head: Node<T> | undefined,
-  x: T,
-): Node<T> | undefined {}
+	head: Node<T> | undefined,
+	x: T
+): Node<T> | undefined {
+	let list = new LinkedList<T>(head);
+	const left = list.filter((v: T) => v < x);
+	const right = list.filter((v: T) => v >= x);
+	return left.concat(right).head;
+}
+
+const partitioned = partition({ value: 5, next: undefined }, 5);
+console.log(partitioned);
