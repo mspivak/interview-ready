@@ -21,9 +21,6 @@ export default function sumLists(
 	list1: Node<number> | undefined,
 	list2: Node<number> | undefined
 ): Node<number> | undefined {
-	console.log(list1);
-	console.log(list2);
-
 	const sum = new LinkedList<number>();
 	let carry = 0;
 	while (list1 || list2) {
@@ -44,6 +41,5 @@ export default function sumLists(
 	if (carry) {
 		sum.push(1);
 	}
-	sum.print();
 	return sum.head;
 }
