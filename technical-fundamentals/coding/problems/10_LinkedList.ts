@@ -19,11 +19,11 @@ export class LinkedList<T> {
 		if (head) {
 			let pointer: Node<T> | undefined = head;
 			let newHead: Node<T> = { value: pointer.value };
+			let previousNewNode = newHead;
+
 			this.head = newHead;
 			this.tail = newHead;
 			this.length = 1;
-
-			let previousNewNode = newHead;
 			pointer = pointer.next;
 
 			while (pointer) {
