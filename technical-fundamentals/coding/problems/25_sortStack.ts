@@ -16,17 +16,14 @@ export default class SortStack<T> {
 
 	push(value: T): void {
 		let pointer = this.list.head;
+		let previousItem: Node<T> | undefined = undefined;
 
-		console.log("push", value);
 		if (!pointer) {
 			this.list.push(value);
 			return;
 		}
 
-		let previousItem: Node<T> | undefined = undefined;
-
 		while (pointer) {
-			console.log(value, pointer.value);
 			if (value < pointer.value) {
 				if (!previousItem) this.list.head = { value, next: pointer };
 				else previousItem!.next = { value, next: pointer };
@@ -43,31 +40,14 @@ export default class SortStack<T> {
 	}
 
 	pop(): T | undefined {
-		const value = this.list.pop();
-		console.log("pop", value);
-		return value;
+		return this.list.pop();
 	}
 
 	peek(): T | undefined {
-		const value = this.list.head?.value;
-		console.log("peek", value);
-		return value;
+		return this.list.head?.value;
 	}
 
 	isEmpty(): boolean {
-		console.log("isempty", this.list.length);
 		return this.list.length === 0;
 	}
 }
-
-let stack = new SortStack();
-
-stack.push(1);
-stack.list.print();
-stack.peek();
-stack.list.print();
-stack.push(3);
-stack.list.print();
-stack.pop();
-stack.push(2);
-stack.peek();
