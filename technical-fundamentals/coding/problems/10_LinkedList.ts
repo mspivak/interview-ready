@@ -52,6 +52,17 @@ export class LinkedList<T> {
 		this.tail = newTail;
 		this.length++;
 	}
+	insertAt(index: number, value: T) {
+		let pointer = this.head;
+		let i = 0;
+		while (pointer) {
+			if (i == index) {
+				pointer.next = { value, next: pointer.next };
+			}
+			pointer = pointer.next;
+			i++;
+		}
+	}
 
 	filter(fn: Function) {
 		let pointer: Node<T> | undefined = this.head;
