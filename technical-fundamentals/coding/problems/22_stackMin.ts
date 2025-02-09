@@ -5,19 +5,33 @@
 //
 
 export default class StackMin<T> {
-    constructor() {
+	stack: T[];
+	mins: T[];
 
-    }
+	constructor() {
+		this.stack = [];
+		this.mins = [];
+	}
 
-    push(value: T): void {
+	get last() {
+		return this.stack.length - 1;
+	}
 
-    }
+	push(value: T): void {
+		this.mins.push(
+			this.mins[this.last] && this.mins[this.last] < value
+				? this.mins[this.last]
+				: value
+		);
+		this.stack.push(value);
+	}
 
-    pop(): T | undefined {
+	pop(): T | undefined {
+		this.mins.pop();
+		return this.stack.pop();
+	}
 
-    }
-
-    min(): T | undefined {
-
-    }
+	min(): T | undefined {
+		return this.mins[this.last];
+	}
 }
