@@ -45,6 +45,7 @@ export class LinkedList<T> {
 		if (!this.head) {
 			this.head = newTail;
 			this.tail = newTail;
+			this.length++;
 			return;
 		}
 
@@ -52,6 +53,14 @@ export class LinkedList<T> {
 		this.tail = newTail;
 		this.length++;
 	}
+
+	pop(): T | undefined {
+		const result = this.head?.value;
+		this.head = this.head?.next;
+		this.length--;
+		return result;
+	}
+
 	insertAt(index: number, value: T) {
 		let pointer = this.head;
 		let i = 0;
