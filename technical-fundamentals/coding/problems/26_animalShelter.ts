@@ -1,5 +1,7 @@
 // 6. *Animal Shelter*:
 
+import { LinkedList } from "./10_LinkedList";
+
 // An animal shelter, which holds only dogs and cats, operates on a strictly
 // "first in, first out" basis. People must adopt either the "oldest"
 // (based on arrival time) of all animals at the shelter,
@@ -13,29 +15,38 @@
 export type AnimalType = "dog" | "cat";
 
 export class Animal {
-  type: AnimalType;
-  constructor(type: AnimalType) {
-    this.type = type;
-  }
+	type: AnimalType;
+	constructor(type: AnimalType) {
+		this.type = type;
+	}
 }
 
 export default class AnimalShelter {
+	list: LinkedList<Animal>;
 
-    constructor() {
-    }
+	constructor() {
+		this.list = new LinkedList<Animal>();
+	}
 
-    enqueue(type: AnimalType): void {
+	enqueue(type: AnimalType): void {
+		this.list.push(new Animal(type));
+	}
 
-    }
+	dequeueAny(): Animal | undefined {
+		return this.list.pop();
+	}
 
-    dequeueAny(): Animal | undefined {
+	dequeueSpecificType(type: AnimalType): Animal | undefined {
+		return this.list.popFirstMatching(
+			(a: Animal | undefined) => a?.type === type
+		);
+	}
 
-    }
+	dequeueDog(): Animal | undefined {
+		return this.dequeueSpecificType("dog");
+	}
 
-    dequeueDog(): Animal | undefined {
-    }
-
-    dequeueCat(): Animal | undefined {
-    }
+	dequeueCat(): Animal | undefined {
+		return this.dequeueSpecificType("cat");
+	}
 }
-

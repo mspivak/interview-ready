@@ -124,6 +124,25 @@ export class LinkedList<T> {
 		this.length--;
 	}
 
+	popFirstMatching(fn: Function): T | undefined {
+		let pointer = this.head;
+		let previousItem: Node<T> | undefined;
+		while (pointer) {
+			if (fn(pointer.value)) {
+				if (previousItem) {
+					previousItem.next = pointer.next;
+				} else {
+					this.head = pointer.next;
+				}
+				this.length--;
+				return pointer.value;
+			}
+			previousItem = pointer;
+			pointer = pointer.next;
+		}
+		return undefined;
+	}
+
 	count() {
 		let pointer: Node<T> | undefined = this.head;
 		let count = 0;
@@ -188,10 +207,12 @@ export class LinkedList<T> {
 		return this;
 	}
 
-	find(value: T): Node<T> | null {
+	find(value: T | Function): Node<T> | null {
 		let pointer: Node<T> | undefined = this.head;
 		while (pointer !== undefined) {
-			if (pointer.value == value) {
+			if (value instanceof Function && value(pointer.value)) {
+				return pointer;
+			} else if (pointer.value == value) {
 				return pointer;
 			}
 			pointer = pointer.next;
