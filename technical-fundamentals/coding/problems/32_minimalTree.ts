@@ -15,11 +15,26 @@
 //
 
 export type TreeNode<T> = {
-  value: T;
-  left?: TreeNode<T>;
-  right?: TreeNode<T>;
+	value: T;
+	left?: TreeNode<T>;
+	right?: TreeNode<T>;
 };
 
 export default function minimalTree<T>(
-  sortedArray: T[],
-): TreeNode<T> | undefined {}
+	sortedArray: T[]
+): TreeNode<T> | undefined {
+	if (sortedArray.length == 0) return undefined;
+
+	const middleKey = Math.floor(sortedArray.length / 2);
+	const before = sortedArray.slice(0, middleKey);
+	const after = sortedArray.slice(middleKey + 1, sortedArray.length);
+
+	const tree: TreeNode<T> = {
+		value: sortedArray[middleKey],
+	};
+
+	if (before.length) tree.left = minimalTree(before);
+	if (after.length) tree.right = minimalTree(after);
+
+	return tree;
+}
