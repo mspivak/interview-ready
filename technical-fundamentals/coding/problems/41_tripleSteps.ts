@@ -6,23 +6,26 @@
 //
 let tried = new Map();
 export default function tripleStep(n: number): number {
-	if (n <= 0) {
-		return 0;
-	}
+	if (n <= 0) return 0;
+
 	if (tried.has(n)) {
 		return tried.get(n);
 	}
-	let possibleWays = 0;
-	for (const step of [1, 2, 3]) {
-		const newPosition = n - step;
-		if (newPosition == 0) {
-			possibleWays++;
-			continue;
-		} else if (newPosition < 0) {
-			continue;
+
+	for (let i = 1; i <= n + 1; i++) {
+		let possibleWays = 0;
+		for (let step of [1, 2, 3]) {
+			const newPosition = i - step;
+			if (newPosition == 0) {
+				possibleWays++;
+				continue;
+			} else if (newPosition < 0) {
+				continue;
+			}
+			possibleWays += tripleStep(newPosition);
 		}
-		possibleWays += tripleStep(newPosition);
+		tried.set(i, possibleWays);
 	}
-	tried.set(n, possibleWays);
-	return possibleWays;
+
+	return tried.get(n);
 }
