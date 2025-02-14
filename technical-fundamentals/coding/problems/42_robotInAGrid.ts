@@ -7,5 +7,63 @@
 
 type Grid = boolean[][];
 type Path = Array<[number, number]>;
+let callCount = 0;
 
-export default function robotInAGrid(grid: Grid): [number, number][] | false {}
+function assert(shouldBeTrue: boolean) {
+	if (!shouldBeTrue) {
+		throw Error("NOT TRUE");
+	}
+}
+
+export default function robotInAGrid(grid: Grid): [number, number][] | false {
+	const memo = new Map<string, Path | false>();
+
+	function move(subgrid: Grid, subpath: Path = []): [number, number][] | false {
+		callCount++;
+		// is a valid grid
+		if (!subgrid.length || !subgrid[0].length) {
+			return false;
+		}
+		// is square walkable
+		if (!subgrid[0][0]) {
+			return false;
+		}
+
+		const y = grid.length - subgrid.length;
+		const x = grid[0].length - subgrid[0].length;
+		const memoKey = [y, x].join(",");
+
+		assert(subgrid[0][0] == grid[y][x]);
+
+		if (memo.has(memoKey)) {
+			return memo.get(memoKey)!;
+		}
+
+		// are we done
+		if (subgrid.length == 1 && subgrid[0].length == 1) {
+			subpath.unshift([x, y]);
+			memo.set(memoKey, subpath);
+			return subpath;
+		}
+		const tryDown = move(subgrid.slice(1, subgrid.length), subpath);
+		memo.set([y + 1, x].join(","), tryDown);
+		if (tryDown) {
+			subpath.unshift([x, y]);
+			return tryDown;
+		}
+
+		const tryRight = move(
+			subgrid.map((row) => row.slice(1, subgrid[0].length)),
+			subpath
+		);
+		memo.set([y, x + 1].join(","), tryDown);
+		if (tryRight) {
+			subpath.unshift([x, y]);
+			return tryRight;
+		}
+
+		return false;
+	}
+
+	return move(grid);
+}
