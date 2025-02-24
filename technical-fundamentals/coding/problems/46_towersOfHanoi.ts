@@ -13,4 +13,25 @@
 
 type Tower = number[];
 
-export function towersOfHanoi(n: number): [Tower, Tower, Tower] {}
+export function towersOfHanoi(n: number): [Tower, Tower, Tower] {
+	const towers: [Tower, Tower, Tower] = [[], [], []];
+
+	// pre-fill
+	for (let i = n; i > 0; i--) {
+		towers[0].push(i);
+	}
+
+	function moveDisc(n: number, from: number, to: number, through: number) {
+		if (n !== 1) {
+			moveDisc(n - 1, from, through, to);
+		}
+		towers[to].push(towers[from].pop()!);
+		if (n !== 1) {
+			moveDisc(n - 1, through, to, from);
+		}
+	}
+
+	// move n discs from tower 0 to tower 2 through tower 1
+	moveDisc(n, 0, 2, 1);
+	return towers;
+}

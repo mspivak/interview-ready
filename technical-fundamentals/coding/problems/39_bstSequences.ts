@@ -7,9 +7,38 @@
 // ```
 
 export type TreeNode<T> = {
-  value: T;
-  left?: TreeNode<T>;
-  right?: TreeNode<T>;
+	value: T;
+	left?: TreeNode<T>;
+	right?: TreeNode<T>;
 };
 
-export default function bstSequences<T>(root: TreeNode<T>): T[][] {}
+export default function bstSequences<T>(root: TreeNode<T>): T[][] {
+	let sequences: T[][] = [];
+
+	traverse(root, [root.value]);
+
+	function traverse(node: TreeNode<T> | undefined, sequence: T[] = []) {
+		if (!node) {
+			sequences.push(sequence);
+			return;
+		}
+
+		const sequence_a = [...sequence];
+		if (node.left) {
+			sequence_a.push(node.left.value);
+			traverse(node!.right, sequence_a);
+		} else {
+			sequences.push(sequence_a);
+		}
+
+		const sequence_b = [...sequence];
+		if (node.right) {
+			sequence_b.push(node.right.value);
+			traverse(node!.left, sequence_b);
+		} else {
+			sequences.push(sequence_b);
+		}
+	}
+	console.log(sequences);
+	return sequences;
+}
