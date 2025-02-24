@@ -21,11 +21,9 @@ export default function listOfDepths<T>(
 	root: TreeNode<T> | null
 ): ListNode<T>[] {
 	const lists: ListNode<T>[] = [];
-	let depth = 0;
-	if (!root) return [];
-	dfs(root, depth);
+	dfs(root);
 
-	function dfs(tree: TreeNode<T> | undefined, depth: number) {
+	function dfs(tree: TreeNode<T> | undefined | null, depth: number = 0) {
 		if (!tree) return;
 		if (!lists[depth]) {
 			lists[depth] = { value: tree.value };
