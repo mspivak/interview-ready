@@ -1,6 +1,6 @@
 Recursion Cheat Sheet
 
-# Inducción: Base cases + function
+# Induction: Base cases + function
 
 - Test the function with small numbers and cases.
 - Find a pattern between the base cases
@@ -32,7 +32,6 @@ Recursion Cheat Sheet
     )
   }
 ```
-
 
 # Dynamic Programming
 
