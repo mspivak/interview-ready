@@ -12,7 +12,7 @@ export default function tripleStep(n: number): number {
 		return tried.get(n);
 	}
 
-	for (let i = 1; i <= n + 1; i++) {
+	for (let i = 1; i <= n; i++) {
 		let possibleWays = 0;
 		for (let step of [1, 2, 3]) {
 			const newPosition = i - step;
