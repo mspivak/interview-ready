@@ -7,33 +7,19 @@
 
 type Grid = boolean[][];
 type Path = Array<[number, number]>;
-let callCount = 0;
-
-function assert(shouldBeTrue: boolean) {
-	if (!shouldBeTrue) {
-		throw Error("NOT TRUE");
-	}
-}
 
 export default function robotInAGrid(grid: Grid): [number, number][] | false {
 	const memo = new Map<string, Path | false>();
 
 	function move(subgrid: Grid, subpath: Path = []): [number, number][] | false {
-		callCount++;
-		// is a valid grid
-		if (!subgrid.length || !subgrid[0].length) {
-			return false;
-		}
-		// is square walkable
-		if (!subgrid[0][0]) {
+		// is a valid grid							 and is walkable
+		if (!subgrid.length || !subgrid[0].length || !subgrid[0][0]) {
 			return false;
 		}
 
 		const y = grid.length - subgrid.length;
 		const x = grid[0].length - subgrid[0].length;
 		const memoKey = [y, x].join(",");
-
-		assert(subgrid[0][0] == grid[y][x]);
 
 		if (memo.has(memoKey)) {
 			return memo.get(memoKey)!;
